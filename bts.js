@@ -111,37 +111,52 @@ class Tree {
         while (true) {
 
             if(tmp === null) return 
+            
              
             if(value===tmp.data) {
+
+                
+                if(tmp === this.root && (tmp.left ===null || tmp.right === null)) {
+                    this.root = tmp.left !== null ? tmp.let : tmp.right
+                    return 
+                }
+
                 foundValue = tmp
                 //matches and has two children 
                 if(tmp.left !==null && tmp.right !==null) {
                     //go right once 
+                    previousNodePoints = "right"
                     tmp = tmp.right;
             
                     //go left until you cannot 
                     //curr is the most leftest node value before null
                     let inOrderSuccessor; 
-                    while(tmp!==null) {
-                        inOrderSuccessor = tmp
+                    let parentOfSuccessor; 
+                    while(tmp.left!==null) {
+                        parentOfSuccessor = tmp
+                        inOrderSuccessor = tmp.left 
+                        previousNodePoints = "left"
                         tmp = tmp.left 
                     }
 
-                    
+
                     foundValue.data = inOrderSuccessor.data
-                    inOrderSuccessor.data = null 
+                    foundValue = inOrderSuccessor
+                    previousNodeValue = parentOfSuccessor
+
+ 
                 
+                } 
+
                 //if the left is null, child on right 
-                } else if(foundValue.left ===null) {
+
+                if(foundValue.left ===null) {
                     previousNodeValue[previousNodePoints] = foundValue.right; 
                 //if the right is null, child on left 
                 } else if (foundValue.right === null ) {
                     previousNodeValue[previousNodePoints] = foundValue.left 
                 } else {
                     previousNodeValue[previousNodePoints] = null
-
-
-                    
                 }
 
                 return
@@ -164,11 +179,12 @@ class Tree {
 
 } 
 
-let testArray = [48,145,76,50, 46]
+let testArray = [1]
 let tree = new Tree(testArray);
 tree.prettyPrint();
 tree.deleteItem(1)
 tree.prettyPrint();
+
 
 
 
