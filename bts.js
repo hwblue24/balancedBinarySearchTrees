@@ -175,17 +175,90 @@ class Tree {
 
     }
 
+    levelOrderForEach(callback) {
+        let tmp = this.root
+        if(tmp === null) return 
+        if(callback && typeof callback === "function" ) {
+            let q = []; 
+            q.push(tmp)
+            while (q.length!==0) {
+                let current = q.shift();
+                callback(current.data)
+                if(current.left !==null) q.push(current.left)
+                if(current.right !==null) q.push(current.right)
+            }
+
+        }else {
+            throw new Error ("Need a callback")
+        }
+    }
+
+    //root -> left sub-tree -> right sub-tree
+    preOrderForEach(callback) {
+        if(callback && typeof callback === "function" ) {
+            const traverse = function (tmp) {
+                if(tmp === null) return 
+                callback(tmp.data)
+                traverse(tmp.left)
+                traverse(tmp.right)
+            }
+    
+            traverse(this.root)
+            
+        }else {
+            throw new Error ("Need a callback")
+        }
+
+    }
+
+    //left subtree -> root -> right subtree
+
+    inOrderForEach() {
+        if(callback && typeof callback === "function" ) {
+            const traverse = function (tmp) {
+                if(tmp === null) return 
+                traverse(tmp.left)
+                console.log(tmp.data)
+                traverse(tmp.right)
+            }
+    
+            traverse(this.root)
+           
+        }else {
+            throw new Error ("Need a callback")
+        }
+
+    }
+
+    // left subtree -> right subtree -> root 
+    postOrderForEach(callback) {
+        if(callback && typeof callback === "function" ) {
+            const traverse = function (tmp) {
+                if(tmp === null) return 
+                traverse(tmp.left)
+                traverse(tmp.right)
+                callback(tmp.data)
+            }
+    
+            traverse(this.root)
+           
+        }else {
+            throw new Error ("Need a callback")
+        }
+
+    }
 
 
 } 
 
-let testArray = [1]
-let tree = new Tree(testArray);
-tree.prettyPrint();
-tree.deleteItem(1)
-tree.prettyPrint();
 
 
+let arr = [12,35,67,8,54]
+let tree = new Tree(arr); 
+tree.prettyPrint();
+//tree.preOrderForEach((value) => console.log(value));
+//tree.InOrderForEach();
+tree.postOrderForEach((value) => console.log(value));
 
 
 
